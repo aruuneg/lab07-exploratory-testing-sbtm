@@ -1,144 +1,207 @@
-\# Session Report
+# Session Report
 
+## Tester Information
 
+- Name: ANAR BATBOLD
+- Student Code: B170910823
 
-\## Tester
+## Session Information
 
+- Session Type: Session-Based Test Management (SBTM)
+- Application: Reading List
+- Duration: 60 minutes
+- Date: 2026-10-14
 
+---
 
-ANAR BATBOLD
+# Charter Summary
 
+Objective:
 
+Explore the Reading List application and identify functional, usability, data validation, and API-related defects.
 
-\## Student Code
+Tours selected:
 
+- Couch Potato Tour
+- Data Tour
+- Saboteur Tour
 
+Reason for selection:
 
-B170910823
+These tours focus on missing validation, unusual input values, incorrect data handling, and unexpected application behavior.
 
+---
 
+# Timeline
 
-\## Session Information
+## 14:00 – 14:10
 
+- Reviewed charter
+- Started application
+- Explored available functionality
+- Reviewed book creation, search, deletion and statistics features
 
+## 14:10 – 14:25 (Couch Potato Tour)
 
-\- Session Type: SBTM Exploratory Testing
+Activities:
 
-\- Duration: 60 minutes
+- Tested empty inputs
+- Tested missing title values
+- Tested normal book creation
 
-\- Application: Reading List
+Findings:
 
-\- Charter: Reading list application functionality and robustness
+- Empty title was accepted and stored successfully
 
+Bug Reference:
 
+- Bug #1
 
-\## Areas Covered
+---
 
+## 14:25 – 14:40 (Data Tour)
 
+Activities:
 
-\- Add book
+- Added books with different names
+- Tested lowercase search
+- Tested uppercase search
+- Tested long text input
 
-\- Search book
+Findings:
 
-\- Delete book
+- Search functionality was case-sensitive
 
-\- Statistics
+Bug Reference:
 
-\- REST API
+- Bug #3
 
+---
 
+## 14:40 – 14:50 (Saboteur Tour)
 
-\## Tours Used
+Activities:
 
+- Investigated API endpoints
+- Compared UI information with API statistics
+- Checked consistency between displayed data and backend data
 
+Findings:
 
-\### Couch Potato Tour
+- Statistics API returned an incorrect total count
 
+Bug Reference:
 
+- Bug #2
 
-Tested empty inputs, invalid values and missing data.
+---
 
+## 14:50 – 15:00
 
+Activities:
 
-\### Data Tour
+- Reproduced discovered issues
+- Captured screenshots
+- Collected API evidence
+- Prepared bug reports
 
+---
 
+# Defects Found
 
-Tested long strings, duplicate data and unusual values.
+## Bug #1
 
+Title:
 
+```text
+Empty book title can be added
+```
 
-\### Saboteur Tour
+Severity:
 
+```text
+Medium
+```
 
+Status:
 
-Attempted to break functionality through invalid actions and API usage.
+```text
+Reproduced
+```
 
+---
 
+## Bug #2
 
-\## Bugs Found
+Title:
 
+```text
+Statistics total count does not match displayed books
+```
 
+Severity:
 
-\### Bug 1
+```text
+Medium
+```
 
+Status:
 
+```text
+Reproduced
+```
 
-Empty book title can be added.
+---
 
+## Bug #3
 
+Title:
 
-Severity: Medium
+```text
+Search is case-sensitive
+```
 
+Severity:
 
+```text
+Medium
+```
 
-\### Bug 2
+Status:
 
+```text
+Reproduced
+```
 
+---
 
-Statistics total count does not match actual number of books shown.
+# Obstacles Encountered
 
+1. Determining whether statistics inconsistency was caused by the UI or the API required additional API investigation.
+2. Search behavior initially appeared correct until different text casing was tested.
+3. Several defects required repeated execution to verify reproducibility.
 
+---
 
-Severity: Medium
+# Coverage
 
+Areas covered during the session:
 
+- Book creation
+- Search
+- Statistics
+- User interface messages
+- REST API behavior
 
-\### Bug 3
+Areas not covered:
 
+- Performance
+- Security
+- Concurrent access
+- Cross-browser compatibility
 
+---
 
-Search is case-sensitive and does not find existing books when case differs.
+# Session Assessment
 
-
-
-Severity: Medium
-
-
-
-\## Observations
-
-
-
-The application generally works for normal scenarios but lacks input validation in some areas. Statistics appear inconsistent with displayed data. Search functionality is less user-friendly due to case sensitivity.
-
-
-
-\## Evidence
-
-
-
-\- Screenshot for empty title acceptance
-
-\- Screenshot for search case sensitivity
-
-\- API response from `/api/stats`
-
-
-
-\## Summary
-
-
-
-Three unique defects were found during exploratory testing. The most important issues were missing validation, incorrect statistics calculation and search behavior. Further regression testing is recommended after defects are fixed.
-
+The exploratory session successfully identified three independent defects. The most serious issue was the statistics inconsistency because it affects the accuracy of information presented to users. Missing validation for empty titles can reduce data quality. Case-sensitive search negatively affects usability and user experience. The selected tours were effective for discovering validation, data consistency, and usability defects. Additional exploratory sessions focusing on API robustness and security would likely uncover further issues.
