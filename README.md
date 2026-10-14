@@ -1,446 +1,323 @@
-\# Лаборатори №7: Exploratory Testing (SBTM)
+# Лаборатори №7: Exploratory Testing (SBTM)
 
+## Оюутны мэдээлэл
 
+- Нэр: ANAR BATBOLD
+- Код: B170910823
 
-\## Оюутны мэдээлэл
+## Ашигласан орчин
 
-
-
-\- Нэр: ANAR BATBOLD
-
-\- Код: B170910823
-
-\- Хичээл: F.CSA313 Программ хангамжийн чанарын баталгаа ба тест
-
-
-
-\---
-
-
-
-\# Туршилтын орчин
-
-
-
-\## Node.js
-
-
+### Node.js
 
 ```text
-
 v24.19.0
-
 ```
 
-
-
-\## Аппликейшн
-
-
+### Аппликейшн
 
 ```text
-
 Reading List Application
-
 ```
-
-
 
 URL:
 
-
-
 ```text
-
 http://localhost:3000
-
 ```
 
+---
 
+# Session Charter Summary
 
-\---
+Тестийн зорилго:
 
+Reading List аппликейшний ном нэмэх, хайх, устгах болон статистикийн функцуудыг exploratory аргачлалаар шалгах.
 
+### Сонгосон аялалууд
 
-\# Charter Summary
+#### Couch Potato Tour
 
+Хоосон утга, баталгаажуулалт дутуу нөхцөлүүдийг шалгах.
 
+#### Data Tour
 
-Судлах хүрээ:
+Урт текст, давхардсан өгөгдөл, хайлт болон өгөгдлийн чанартай холбоотой асуудлыг шалгах.
 
+#### Saboteur Tour
 
+API болон системийн логикийг эвдэх оролдлого хийх.
 
-\- Ном нэмэх
+---
 
-\- Ном хайх
-
-\- Ном устгах
-
-\- Статистик
-
-\- REST API
-
-
-
-Ашигласан турууд:
-
-
-
-\- Couch Potato Tour
-
-\- Data Tour
-
-\- Saboteur Tour
-
-
-
-Туршилтын зорилго нь өгөгдлийн баталгаажуулалт, статистикийн үнэн зөв байдал, хайлтын ажиллагаа болон хэрэглэгчийн интерфейсийн доголдлыг илрүүлэх байв.
-
-
-
-\---
-
-
-
-\# Session Information
-
-
+# Session Information
 
 | Үзүүлэлт | Утга |
-
 |----------|----------|
-
 | Test Type | Exploratory Testing |
-
 | Approach | Session Based Test Management |
-
 | Duration | 60 минут |
-
 | Tester | ANAR BATBOLD |
 
-| Application | Reading List |
+---
 
+# Session Timeline
 
+## 14:00 – 14:10
 
-\---
+- Charter review
+- Application startup
+- Initial exploration of UI
 
+## 14:10 – 14:25
 
+### Couch Potato Tour
 
-\# Судалсан хэсгүүд
+Шалгасан зүйлс:
 
+- Empty input
+- Invalid values
+- Missing data
 
+Илрүүлсэн асуудал:
 
-\## UI
+- Empty title accepted
 
+## 14:25 – 14:40
 
+### Data Tour
 
-\- Add Book
+Шалгасан зүйлс:
 
-\- Search
+- Search
+- Long titles
+- Duplicate values
 
-\- Delete Book
+Илрүүлсэн асуудал:
 
-\- Statistics
+- Search is case-sensitive
 
+## 14:40 – 14:50
 
+### Saboteur Tour
 
-\## API
+Шалгасан зүйлс:
 
+- API endpoints
+- Statistics
+- Consistency checks
 
+Илрүүлсэн асуудал:
 
-\- GET /api/books
+- Statistics mismatch
 
-\- GET /api/stats
+## 14:50 – 15:00
 
+- Bug reproduction
+- Screenshot collection
+- Evidence collection
+- Report preparation
 
+---
 
-\---
+# Илрүүлсэн согогууд
 
+## Bug #1 – Empty book title can be added
 
-
-\# Илрүүлсэн согогууд
-
-
-
-\## Bug #1 – Empty book title can be added
-
-
-
-\### Severity
-
-
+### Severity
 
 Medium
 
-
-
-\### Steps
-
-
-
-1\. Гарчгийг хоосон үлдээнэ.
-
-2\. Year оруулна.
-
-3\. Add товч дарна.
-
-
-
-\### Expected Result
-
-
-
-```text
+### Expected
 
 Validation error should be displayed.
 
-Book should not be added.
+### Actual
 
-```
+Empty title is successfully added to the list.
 
+### Impact
 
+Invalid data can be stored in the application.
 
-\### Actual Result
+---
 
+## Bug #2 – Statistics total count does not match displayed books
 
-
-```text
-
-Book is added successfully.
-
-Empty book appears in the list.
-
-```
-
-
-
-\### Evidence
-
-
-
-Хоосон гарчигтай мөр жагсаалтад нэмэгдсэн.
-
-
-
-\---
-
-
-
-\## Bug #2 – Statistics count does not match displayed books
-
-
-
-\### Severity
-
-
+### Severity
 
 Medium
 
+### Expected
 
+Total number of books should match displayed books.
 
-\### Steps
+### Actual
 
-
-
-1\. Номын жагсаалтыг харна.
-
-2\. API статистик шалгана.
-
-
-
-\### API Response
-
-
+Statistics API returned:
 
 ```json
-
 {
-
-&#x20; "total": 7,
-
-&#x20; "newest": 2024
-
+  "total": 7,
+  "newest": 2024
 }
-
 ```
 
+while displayed data did not match that count.
 
+### Impact
 
-\### Expected Result
+Users receive incorrect statistical information.
 
+---
 
+## Bug #3 – Search is case-sensitive
 
-```text
-
-Total book count should equal displayed books.
-
-```
-
-
-
-\### Actual Result
-
-
-
-```text
-
-Displayed books and API statistics do not match.
-
-```
-
-
-
-\### Evidence
-
-
-
-`/api/stats` API ба UI жагсаалтын мэдээлэл зөрсөн.
-
-
-
-\---
-
-
-
-\## Bug #3 – Search is case-sensitive
-
-
-
-\### Severity
-
-
+### Severity
 
 Medium
 
+### Expected
 
-
-\### Steps
-
-
-
-1\. "Clean Code" ном байгаа байх.
-
-2\. Search талбарт:
-
-
+Searching for:
 
 ```text
-
 clean code
-
 ```
 
-
-
-гэж бичнэ.
-
-
-
-3\. Search дарна.
-
-
-
-\### Expected Result
-
-
+should return:
 
 ```text
-
-Clean Code should be found.
-
+Clean Code
 ```
 
+### Actual
 
+No results are displayed.
 
-\### Actual Result
+### Impact
 
+Search functionality is less usable and does not match user expectations.
 
+---
 
-```text
+# API Evidence
 
-No results returned.
-
-```
-
-
-
-\### Evidence
-
-
-
-Search хэрэглэгчийн жижиг үсгээр бичсэн хайлтыг олж чадаагүй.
-
-
-
-\---
-
-
-
-\# API Evidence
-
-
-
-\## Statistics API
-
-
+## Statistics API
 
 Request:
 
-
-
 ```http
-
 GET /api/stats
-
 ```
-
-
 
 Response:
 
-
-
 ```json
-
 {
-
-&#x20; "total": 7,
-
-&#x20; "newest": 2024
-
+  "total": 7,
+  "newest": 2024
 }
-
 ```
 
+Full HTTP response is stored in:
 
+```text
+evidence/api-stats.txt
+```
 
-\---
+---
 
+# Human Observation vs Automation
 
+Exploratory testing revealed several issues that would be difficult to identify using simple automated checks alone.
 
-\# Эрсдэлийн үнэлгээ
+### Human Observation
 
+Discovered:
 
+- Empty title acceptance
+- Case-sensitive search behavior
+- Inconsistent statistics
 
-| Асуудал | Эрсдэл |
+These issues required visual inspection and human judgement.
 
-|----------|----------|
+### Automation
 
-| Empty title | Мэдээллийн чанар алдагдах |
+Automated tests are effective for:
 
-| Incorrect statistics | Буруу тайлан, буруу тооцоолол |
+- Regression checking
+- Repeated validation
+- API verification
 
-| Case-sensitive search | Хайлт ашиглахад хүндрэлтэй |
+However, automated tests do not easily identify usability and user-experience issues without explicitly written assertions.
 
+---
 
+# Tour Findings
 
-\---
+## Couch Potato Tour
 
+Found missing validation for empty titles.
 
+## Data Tour
 
-\# Session Assessment
+Found search behavior issue related to character casing.
 
+## Saboteur Tour
 
+Found inconsistency between API statistics and displayed data.
 
-Туршилтын хугацаанд үндсэн UI болон API хэсгүүдийг шалгасан. Хоосон утгууд, урт утгууд, хайлт болон статистиктай холбоотой асуудлуудыг судалсан. Системийн үндсэн ажиллагаа ажиллаж байсан боловч мэдээллийн баталгаажуулалт дутуу байсан. Search функц
+---
 
+# Obstacles Encountered
+
+1. Determining whether statistics inconsistency originated from the UI or API required additional investigation.
+2. Search issue was not obvious until different letter casing was tested.
+3. Multiple reproductions were needed to confirm reported issues.
+
+---
+
+# Areas Covered
+
+## Covered
+
+- Add Book
+- Search
+- Delete Book
+- Statistics
+- REST API
+
+## Not Covered
+
+- Performance
+- Security
+- Concurrent users
+- Cross-browser compatibility
+
+---
+
+# Дүгнэлт
+
+Энэхүү лабораторийн ажлаар Session Based Test Management (SBTM) аргачлалыг ашиглан Reading List аппликейшнд exploratory тест хийлээ. Туршилтын явцад Couch Potato Tour, Data Tour болон Saboteur Tour гэсэн гурван өөр аяллыг ашигласан. Couch Potato Tour-ийн үеэр оролтын баталгаажуулалт дутуу байгааг илрүүлж, хоосон гарчигтай ном нэмэгдэх боломжтойг тогтоосон. Data Tour-ийн үеэр хайлтын функц том жижиг үсэг ялгаж ажиллаж байгааг илрүүлсэн бөгөөд энэ нь хэрэглэгчийн хүлээлттэй нийцэхгүй байв. Saboteur Tour-ийн үеэр API болон хэрэглэгчийн интерфейсийн мэдээллийг харьцуулан шалгаж статистикийн мэдээллийн зөрүүг илрүүлсэн. Exploratory тестийн гол давуу тал нь урьдчилан тодорхойлсон тест кейсгүйгээр системийн бодит зан төлөвийг судлах боломж олгодог явдал байв. Хүний ажиглалт шаардсан хэрэглэгчийн туршлага болон өгөгдлийн чанартай холбоотой асуудлуудыг автомат тестээр илрүүлэхэд хүндрэлтэй байдаг болохыг ажигласан. Харин API түвшний шалгалт нь интерфейс болон өгөгдлийн хоорондын зөрүүг илрүүлэхэд үр дүнтэй байлаа. Нийтдээ гурван өөр төрлийн согог илрүүлж, бүгдийг дахин давтан үзүүлж баталгаажуулсан. Энэхүү лабораторийн ажлын үр дүнд exploratory тестийг системтэйгээр төлөвлөх, гүйцэтгэх болон олдсон согогуудыг баримтжуулах дадлага олж авлаа.
+
+---
+
+# Repository Structure
+
+```text
+app.js
+
+charter.md
+session-report.md
+
+bug-1.md
+bug-2.md
+bug-3.md
+
+evidence/
+└── api-stats.txt
+
+screenshots/
+├── bug-1-empty-title.png
+└── bug-3-search-case-sensitive.png
+```
